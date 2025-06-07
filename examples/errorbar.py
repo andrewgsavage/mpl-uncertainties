@@ -3,8 +3,7 @@
 Errorbar
 ------------
 
-A short Errorbar showcasing how to use the library. The docstrings will be
-converted to RST by sphinx-gallery.
+An Errorbar plot with uncertainties.
 """
 
 import numpy as np
