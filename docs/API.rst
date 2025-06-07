@@ -2,16 +2,15 @@
 API
 ===
 
-Example Module
----------------
+mpl_uncertainties Module
+------------------------
 
-The example module just contains one function - which is just an example
-function to extend matplotlib functionality.
+The module contains functions for plotting data from the uncertainties module using Matplotlib.
 
-.. currentmodule:: mpl_uncertainties.example
+.. currentmodule:: mpl_uncertainties
 .. autosummary::
    :toctree: autoapi
    :nosignatures:
    :recursive:
 
-   example_function
+   errorbar

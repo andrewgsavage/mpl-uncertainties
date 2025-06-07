@@ -1,5 +1,5 @@
 ---------------
-Example Gallery
+Gallery
 ---------------
 
-Some explanatory text. See https://sphinx-gallery.github.io/stable/index.html for how to configure this page.
+This gallery contains a selection of examples of the plots mpl-uncertainties can produce.

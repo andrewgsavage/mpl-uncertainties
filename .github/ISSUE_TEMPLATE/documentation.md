@@ -1,10 +1,9 @@
----
-name: 📖 Documentation improvement
-about: Report parts of the docs that are wrong or unclear
-labels: documentation, bug
----
+______________________________________________________________________
+
+## name: 📖 Documentation improvement about: Report parts of the docs that are wrong or unclear labels: documentation, bug
 
 <!--To help us understand and resolve your issue, please fill out the form to the best of your ability.-->
+
 <!--You can feel free to delete the sections that do not apply.-->
 
 ### Problem
@@ -16,7 +15,6 @@ If you are referencing an existing piece of documentation or example please prov
 * [...] made me think that [...] when really it should be [...]
 * There is no example showing how to do [...]
 -->
-
 
 ### Suggested Improvement
 

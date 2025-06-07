@@ -1,8 +1,6 @@
----
-name: 🚀 Enhancement/Feature Request
-about: Suggest something that could be improved or a New Feature to add
-labels: enhancement
----
+______________________________________________________________________
+
+## name: 🚀 Enhancement/Feature Request about: Suggest something that could be improved or a New Feature to add labels: enhancement
 
 <!--
 Welcome! Thanks for thinking of a way to improve mpl_uncertainties. If this solves a problem for you, then it probably solves that problem for lots of people! So the whole community will benefit from this request.
@@ -32,4 +30,3 @@ Before creating a new feature request please search the issues for relevant feat
 
 * Another project [...] solved this by [...]
 -->
-
