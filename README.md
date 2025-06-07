@@ -12,8 +12,6 @@ pip install mpl_uncertainties
 
 ## Development Installation
 
-
 ```bash
 pip install -e ".[dev]"
 ```
-

@@ -2,9 +2,7 @@
 skip-string-normalization = true
 
 [tool.pytest.ini_options]
-testpaths = [
-    "mpl_uncertainties/tests"
-]
+testpaths = ["mpl_uncertainties/tests"]
 
 [build-system]
 requires = ["setuptools>=42", "wheel"]
@@ -14,18 +12,11 @@ build-backend = "setuptools.build_meta"
 name = "mpl-uncertainties"
 dynamic = ["version"]
 readme = "README.md"
-dependencies = [
-  "uncertainties>=3.2.3,<4.0.0",
-  "matplotlib",
-]
+dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib"]
 
 [dependency-groups]
-test = ["pytest"]
-docs = ["sphinx",
-  "sphinx_copybutton",
-  "sphinx_gallery",
-  "numpydoc",
-  "autoapi",]
+test = ["pytest", "pytest-mpl"]
+docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
@@ -37,23 +28,32 @@ mpl-uncertainties = { path = ".", editable = true }
 [tool.pixi.tasks]
 
 [tool.pixi.feature.test.tasks]
-test = "pytest"
+test = "pytest --mpl --mpl-baseline-path=tests/baseline"
+test_mpl_generate = "pytest --mpl-generate-path=tests/baseline"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
 test = { features = ["test"], solve-group = "default" }
 docs = { features = ["docs"], solve-group = "default" }
+lint = { features = ["lint"], solve-group = "default" }
 
 [tool.pixi.feature.docs.tasks]
 build-doc = { cmd = "make html > .log", cwd = "docs" }
 clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
-example = { cmd = "python examples/errorbar.py"}
+example = { cmd = "python examples/errorbar.py" }
 
-
-
+# doc gets used by readthedocs, docs is used by pixi
 [project.optional-dependencies]
-docs = ["sphinx",
-  "sphinx_copybutton",
-  "sphinx_gallery",
-  "numpydoc",
-  "autoapi",]
+doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
+
+[tool.pixi.feature.lint.dependencies]
+pre-commit = "*"
+pre-commit-hooks = "*"
+taplo = "*"
+ruff = "*"
+mdformat = "*"
+mdformat-ruff = "*"
+
+[tool.pixi.feature.lint.tasks]
+pre-commit-install = "pre-commit install"
+lint = "pre-commit run --all-files"

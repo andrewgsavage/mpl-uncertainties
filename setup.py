@@ -1,6 +1,6 @@
 from os import path
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 # extract version
 path = path.realpath("mpl_uncertainties/_version.py")

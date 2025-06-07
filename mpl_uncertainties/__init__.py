@@ -6,6 +6,6 @@
 
 # Must import __version__ first to avoid errors importing this file during the build process.
 # See https://github.com/pypa/setuptools/issues/1724#issuecomment-627241822
-from ._version import __version__
+from ._version import __version__  # noqa: F401
 
-from .plots import errorbar
+from .plots import errorbar  # noqa: F401
