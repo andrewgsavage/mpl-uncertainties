@@ -9,3 +9,42 @@ testpaths = [
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpl-uncertainties"
+dynamic = ["version"]
+readme = "README.md"
+dependencies = [
+  "uncertainties>=3.2.3,<4.0.0",
+  "matplotlib",
+]
+
+[dependency-groups]
+test = ["pytest"]
+docs = ["sphinx",
+  "sphinx_copybutton",
+  "sphinx_gallery",
+  "numpydoc",
+  "autoapi",]
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["win-64"]
+
+[tool.pixi.pypi-dependencies]
+mpl-uncertainties = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+
+[tool.pixi.feature.test.tasks]
+test = "pytest"
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+test = { features = ["test"], solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
+
+[tool.pixi.feature.docs.tasks]
+build-doc = { cmd = "make html > .log", cwd = "docs" }
+clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
+example = { cmd = "python examples/errorbar.py"}

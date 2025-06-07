@@ -44,8 +44,8 @@ extensions = [
 sphinx_gallery_conf = {
     "examples_dirs": "../examples",  # path to your example scripts
     "gallery_dirs": "examples",  # path to where to save gallery generated output
-    "filename_pattern": "/.*",
-    "ignore_pattern": "/_.*",  # https://www.debuggex.com/
+    "filename_pattern": "/*",
+    # "ignore_pattern": "/_.*",  # https://www.debuggex.com/
 }
 
 
