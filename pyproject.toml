@@ -48,3 +48,12 @@ docs = { features = ["docs"], solve-group = "default" }
 build-doc = { cmd = "make html > .log", cwd = "docs" }
 clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py"}
+
+
+
+[project.optional-dependencies]
+docs = ["sphinx",
+  "sphinx_copybutton",
+  "sphinx_gallery",
+  "numpydoc",
+  "autoapi",]
