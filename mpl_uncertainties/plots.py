@@ -23,11 +23,6 @@ def errorbar(x, y, ax=None, **kwargs):
     # Pull out the current axes if not passed (only after this function began running)
     if ax is None:
         ax = plt.gca()
-        
-    # Choose default color if not passed
-    if 'color' not in kwargs:
-        kwargs.setdefault('color', ax._get_lines._cycler_items[ax._get_lines._idx]["color"])
-        ax._get_lines._idx = (ax._get_lines._idx + 1) % len(ax._get_lines._cycler_items)
 
     # Plot the errorbar
     kwargs.setdefault('marker', '.')
