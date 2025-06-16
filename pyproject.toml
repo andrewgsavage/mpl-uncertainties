@@ -15,7 +15,7 @@ readme = "README.md"
 dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib"]
 
 [dependency-groups]
-test = ["pytest", "pytest-mpl"]
+tests = ["pytest", "pytest-mpl"]
 docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
 
 [tool.pixi.project]
@@ -27,13 +27,13 @@ mpl-uncertainties = { path = ".", editable = true }
 
 [tool.pixi.tasks]
 
-[tool.pixi.feature.test.tasks]
+[tool.pixi.feature.tests.tasks]
 test = "pytest --mpl --mpl-baseline-path=baseline"
 test_mpl_generate = "pytest --mpl-generate-path=baseline"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
-test = { features = ["test"], solve-group = "default" }
+tests = { features = ["tests"], solve-group = "default" }
 docs = { features = ["docs"], solve-group = "default" }
 lint = { features = ["lint"], solve-group = "default" }
 
@@ -43,7 +43,7 @@ clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py" }
 
 # doc gets used by readthedocs, docs is used by pixi
-# doc gets used by pip/github actions, docs is used by pixi
+# test gets used by pip/github actions, tests is used by pixi
 [project.optional-dependencies]
 doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
 test = ["pytest", "pytest-mpl"]
