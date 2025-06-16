@@ -16,7 +16,6 @@ pip install mpl_uncertainties
 pip install -e ".[dev]"
 ```
 
-
 ## Install development version with git/pixi
 
 ```bash

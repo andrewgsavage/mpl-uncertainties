@@ -8,14 +8,20 @@ __all__ = [
     "errorbar",
 ]
 import matplotlib.pyplot as plt
+from uncertainties import unumpy as unp
 
+def errorbar(x, y, ax=None, *args, **kwargs):
+    """
+    Plots errorbar from x,y
+    """
+    x_val = unp.nominal_values(x)
+    y_val = unp.nominal_values(y)
+    x_err = unp.std_devs(x)
+    y_err = unp.std_devs(y)
 
-def errorbar(ux, uy, *args, **kwargs):
-    return plt.errorbar(
-        [a.n for a in ux],
-        [a.n for a in uy],
-        [a.s for a in ux],
-        [a.s for a in uy],
-        *args,
-        **kwargs,
-    )
+    # Pull out the current axes if not passed
+    if ax is None:
+        ax = plt.gca()
+
+    # Plot the errorbar
+    return ax.errorbar(x_val, y_val, xerr=x_err, yerr=y_err, *args, **kwargs)
