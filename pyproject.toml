@@ -38,7 +38,7 @@ docs = { features = ["docs"], solve-group = "default" }
 lint = { features = ["lint"], solve-group = "default" }
 
 [tool.pixi.feature.docs.tasks]
-build-doc = { cmd = "make html > .log", cwd = "docs" }
+build-doc = { cmd = "make html", cwd = "docs" }
 clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py" }
 
