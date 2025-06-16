@@ -43,8 +43,10 @@ clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py" }
 
 # doc gets used by readthedocs, docs is used by pixi
+# doc gets used by pip/github actions, docs is used by pixi
 [project.optional-dependencies]
 doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
+test = ["pytest", "pytest-mpl"]
 
 [tool.pixi.feature.lint.dependencies]
 pre-commit = "*"
