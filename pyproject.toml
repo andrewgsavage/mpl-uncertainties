@@ -27,43 +27,26 @@ mpl-uncertainties = { path = ".", editable = true }
 
 [tool.pixi.tasks]
 
-<<<<<<< HEAD
-[tool.pixi.feature.test.tasks]
-=======
 [tool.pixi.feature.tests.tasks]
->>>>>>> b940ecdd7d807568b9c63eb8bb43c624380dec96
 test = "pytest --mpl --mpl-baseline-path=baseline"
 test_mpl_generate = "pytest --mpl-generate-path=baseline"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
-<<<<<<< HEAD
-test = { features = ["test"], solve-group = "default" }
-=======
 tests = { features = ["tests"], solve-group = "default" }
->>>>>>> b940ecdd7d807568b9c63eb8bb43c624380dec96
 docs = { features = ["docs"], solve-group = "default" }
 lint = { features = ["lint"], solve-group = "default" }
 
 [tool.pixi.feature.docs.tasks]
-<<<<<<< HEAD
-build-doc = { cmd = "make html > .log", cwd = "docs" }
-=======
 build-doc = { cmd = "make html", cwd = "docs" }
->>>>>>> b940ecdd7d807568b9c63eb8bb43c624380dec96
 clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py" }
 
 # doc gets used by readthedocs, docs is used by pixi
-<<<<<<< HEAD
-[project.optional-dependencies]
-doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
-=======
 # test gets used by pip/github actions, tests is used by pixi
 [project.optional-dependencies]
 doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
 test = ["pytest", "pytest-mpl"]
->>>>>>> b940ecdd7d807568b9c63eb8bb43c624380dec96
 
 [tool.pixi.feature.lint.dependencies]
 pre-commit = "*"
