@@ -23,8 +23,5 @@ def errorbar(x, y, ax=None, *args, **kwargs):
     if ax is None:
         ax = plt.gca()
 
-    # Customization
-    kwargs.setdefault('capsize', 2)
-
     # Plot the errorbar
     return ax.errorbar(x_val, y_val, xerr=x_err, yerr=y_err, *args, **kwargs)
