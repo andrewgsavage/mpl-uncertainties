@@ -54,4 +54,4 @@ jobs:
 
       - name: Tests
         run: |
-          pytest mpl --mpl-baseline-path=baseline --color=yes
+          pytest --mpl --mpl-baseline-path=baseline --color=yes
