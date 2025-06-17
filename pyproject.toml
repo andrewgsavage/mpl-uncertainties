@@ -12,11 +12,11 @@ build-backend = "setuptools.build_meta"
 name = "mpl-uncertainties"
 dynamic = ["version"]
 readme = "README.md"
-dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib"]
+dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib", "scipy"]
 
 [dependency-groups]
 tests = ["pytest", "pytest-mpl"]
-docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
+docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi", "scipy", "furo"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
@@ -28,8 +28,8 @@ mpl-uncertainties = { path = ".", editable = true }
 [tool.pixi.tasks]
 
 [tool.pixi.feature.tests.tasks]
-test = "pytest --mpl --mpl-baseline-path=baseline"
-test_mpl_generate = "pytest --mpl-generate-path=baseline"
+test = "pytest --mpl --mpl-baseline-path=baseline --mpl-default-style=default"
+test_mpl_generate = "pytest --mpl-generate-path=baseline --mpl-default-style=default"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
@@ -39,13 +39,13 @@ lint = { features = ["lint"], solve-group = "default" }
 
 [tool.pixi.feature.docs.tasks]
 build-doc = { cmd = "make html", cwd = "docs" }
-clean-doc = { cmd = "rm -rf _build", cwd = "docs" }
+clean-doc = { cmd = "rm -rf _build examples", cwd = "docs" }
 example = { cmd = "python examples/errorbar.py" }
 
 # doc gets used by readthedocs, docs is used by pixi
 # test gets used by pip/github actions, tests is used by pixi
 [project.optional-dependencies]
-doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
+doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi", "scipy", "furo"]
 test = ["pytest", "pytest-mpl"]
 
 [tool.pixi.feature.lint.dependencies]

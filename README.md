@@ -31,39 +31,6 @@ Result:
 TODO upload the real result image when the library will be available
 ![image of a linear graph (examples/linear_fit.png)](examples/linear_fit.png)
 
-The linear regression thats used:
-```python
-def odr_linear_regression(x, y, initial_slope=1., initial_intercept=0.):
-    """
-    use ODR for linear regression
-    """
-    if np.any(err(x) == 0):
-        raise ValueError("One of the x uncertainties is zero, which is invalid for ODR. Please provide uncertanties or consider using a different method")
-    if np.any(err(y) == 0):
-        raise ValueError("One of the y uncertainties is zero, which is invalid for ODR. Please provide uncertanties or consider using a different method")
-        
-    def linear_model(B, x_val):
-        return B[0] * x_val + B[1]
-
-    x_val = val(x)
-    x_err = err(x)
-    y_val = val(y)
-    y_err = err(y)
-    
-    fit = ODR(RealData(x_val, y_val, sx=x_err, sy=y_err), Model(linear_model), beta0=[initial_slope, initial_intercept]).run()
-    fit_slope, fit_intercept = fit.beta
-    fit_slope_err, fit_intercept_err = fit.sd_beta
-
-    if fit.info > 3:
-        fit.pprint()
-        raise ValueError("Error calculating fit")
-
-    fit_slope, fit_intercept = fit.beta
-    fit_slope_err, fit_intercept_err = fit.sd_beta
-
-    return ufloat(fit_slope, fit_slope_err), ufloat(fit_intercept, fit_intercept_err)
-```
-
 For for examples documentation please visit:
 https://mpl-uncertainties.readthedocs.io/en/latest/examples/
 
