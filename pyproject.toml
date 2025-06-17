@@ -16,7 +16,7 @@ dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib"]
 
 [dependency-groups]
 tests = ["pytest", "pytest-mpl"]
-docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi"]
+docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi", "scipy", "furo"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]

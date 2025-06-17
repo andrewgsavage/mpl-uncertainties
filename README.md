@@ -37,18 +37,18 @@ def odr_linear_regression(x, y, initial_slope=1., initial_intercept=0.):
     """
     use ODR for linear regression
     """
-    if np.any(err(x) == 0):
+    x_val = unp.nominal_values(x)
+    y_val = unp.nominal_values(y)
+    x_err = unp.std_devs(x)
+    y_err = unp.std_devs(y)
+
+    if np.any(x_err == 0):
         raise ValueError("One of the x uncertainties is zero, which is invalid for ODR. Please provide uncertanties or consider using a different method")
-    if np.any(err(y) == 0):
+    if np.any(y_err == 0):
         raise ValueError("One of the y uncertainties is zero, which is invalid for ODR. Please provide uncertanties or consider using a different method")
         
     def linear_model(B, x_val):
         return B[0] * x_val + B[1]
-
-    x_val = val(x)
-    x_err = err(x)
-    y_val = val(y)
-    y_err = err(y)
     
     fit = ODR(RealData(x_val, y_val, sx=x_err, sy=y_err), Model(linear_model), beta0=[initial_slope, initial_intercept]).run()
     fit_slope, fit_intercept = fit.beta
