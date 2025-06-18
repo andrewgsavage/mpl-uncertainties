@@ -28,8 +28,8 @@ mpl-uncertainties = { path = ".", editable = true }
 [tool.pixi.tasks]
 
 [tool.pixi.feature.tests.tasks]
-test = "pytest --mpl --mpl-baseline-path=baseline"
-test_mpl_generate = "pytest --mpl-generate-path=baseline"
+test = "pytest --mpl --mpl-baseline-path=baseline --mpl-default-style=default"
+test_mpl_generate = "pytest --mpl-generate-path=baseline --mpl-default-style=default"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
