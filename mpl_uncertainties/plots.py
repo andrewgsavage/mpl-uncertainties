@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from uncertainties import unumpy as unp
 
+
 def errorbar(x, y, ax=None, *args, **kwargs):
     """
     Plots errorbar from x,y
@@ -30,7 +31,21 @@ def errorbar(x, y, ax=None, *args, **kwargs):
     return ax.errorbar(x_val, y_val, xerr=x_err, yerr=y_err, *args, **kwargs)
 
 
-def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=None, x_margin=0.01, x0_proximity=0.2, x_divisions=100, err_area_alpha=0.3, err_label_suffix=" error", *args, **kwargs):
+def fit(
+    x,
+    slope,
+    intercept,
+    ax=None,
+    mutate=lambda y: y,
+    plot_intercept_err=None,
+    x_margin=0.01,
+    x0_proximity=0.2,
+    x_divisions=100,
+    err_area_alpha=0.3,
+    err_label_suffix=" error",
+    *args,
+    **kwargs
+):
     """
     Plots the fit + area of the slope error + errorbar near 0 of the intercept error.
 
@@ -49,7 +64,7 @@ def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=Non
     # Pull out the current axes if not passed
     if ax is None:
         ax = plt.gca()
-        
+
     # Pick a color if not passed
     if 'color' not in kwargs:
         kwargs['color'] = ax._get_lines._cycler_items[ax._get_lines._idx]['color']
@@ -70,20 +85,36 @@ def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=Non
     new_x = np.linspace(x_new_range[0], x_new_range[1], x_divisions)
 
     # Plot the fit
-    ax.plot(new_x, mutate(new_x*slope_val + intercept_val), *args, **kwargs)
+    ax.plot(new_x, mutate(new_x * slope_val + intercept_val), *args, **kwargs)
 
     # Plot error for the intercept
     if 'label' in kwargs:
         kwargs['label'] += err_label_suffix
-    if plot_intercept_err == True or (plot_intercept_err == None and x_new_range[0] <= 0 and 0 <= x_new_range[1]):
+    if plot_intercept_err == True or (
+        plot_intercept_err == None and x_new_range[0] <= 0 and 0 <= x_new_range[1]
+    ):
         mid_y = mutate(intercept_val)
         lower_y = mutate(intercept_val - intercept_err)
         upper_y = mutate(intercept_val + intercept_err)
         lower_err = mid_y - lower_y
         upper_err = upper_y - mid_y
 
-        ax.errorbar(0, mid_y, yerr=[[lower_err], [upper_err]], marker='', elinewidth=2, capsize=4, capthick=2, **kwargs)
+        ax.errorbar(
+            0,
+            mid_y,
+            yerr=[[lower_err], [upper_err]],
+            marker='',
+            elinewidth=2,
+            capsize=4,
+            capthick=2,
+            **kwargs
+        )
 
     # Plot slope error
     kwargs.setdefault('alpha', err_area_alpha)
-    ax.fill_between(new_x, mutate(new_x*(slope_val + slope_err) + intercept_val), mutate(new_x*(slope_val - slope_err) + intercept_val), **kwargs)
+    ax.fill_between(
+        new_x,
+        mutate(new_x * (slope_val + slope_err) + intercept_val),
+        mutate(new_x * (slope_val - slope_err) + intercept_val),
+        **kwargs
+    )
