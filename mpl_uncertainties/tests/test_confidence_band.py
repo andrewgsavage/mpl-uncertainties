@@ -4,7 +4,7 @@
 # Copyright (c) andrewgsavage.
 # Distributed under the terms of the Modified BSD License.
 
-from ..plots import errorbar, fit
+from ..plots import errorbar, confidence_band
 
 
 import numpy as np
@@ -28,7 +28,7 @@ def test_linear_fit():
     slope = ufloat(1, 0.2)
     intercept = ufloat(0, 0.2)
 
-    fit(x, slope, intercept, label='Linear fit')
+    confidence_band(x, slope, intercept, label='Linear fit')
     plt.legend()
     fig = plt.gcf()
     return fig
@@ -47,8 +47,8 @@ def test_linear_data_and_fit():
     slope = ufloat(1, 0.2)
     intercept = ufloat(0, 0.3)
 
-    errorbar(x, y)
-    fit(x, slope, intercept, label='Linear fit')
+    confidence_band(x, slope, intercept, label='Linear fit')
+    errorbar(x, y, linestyle='none', capsize=2)
     plt.legend()
     fig = plt.gcf()
     return fig
@@ -67,7 +67,7 @@ def test_exponential_fit():
     slope = ufloat(1, 0.2)
     intercept = ufloat(0, 0.2)
 
-    fit(x, slope, intercept, label='Exponential fit', mutate=np.exp)
+    confidence_band(x, slope, intercept, label='Exponential fit', mutate=np.exp)
     plt.legend()
     fig = plt.gcf()
     return fig

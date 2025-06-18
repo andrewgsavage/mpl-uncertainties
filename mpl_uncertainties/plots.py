@@ -6,7 +6,7 @@
 
 __all__ = [
     "errorbar",
-    "fit",
+    "confidence_band",
 ]
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,7 +31,7 @@ def errorbar(x, y, ax=None, *args, **kwargs):
     return ax.errorbar(x_val, y_val, xerr=x_err, yerr=y_err, *args, **kwargs)
 
 
-def fit(
+def confidence_band(
     x,
     slope,
     intercept,
