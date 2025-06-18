@@ -96,3 +96,29 @@ plt.grid()
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
+
+##############################################################################
+# fit() Parameters
+# ----------------
+# x:
+#     the x of the graph, it can be numpy array or array of uncertainties values.
+# slope:
+#     ``ufloat`` or ``float`` slope of the linear regression.
+# intercept:
+#     ``ufloat`` or ``float`` intercept of the linear regression.
+# ax=None:
+#     the axes where to plot the graph. if not specified then ``plt`` is used.
+# mutate=lambda y: y:
+#     function to mutate the fit.
+# plot_intercept_err=None:
+#     wether to plot the intercept error, if None then check if x=0 is in the plotting range.
+# x_margin=0.01:
+#     The margin of x axis, extra % to plot before and after the x range.
+# x0_proximity=0.2:
+#     percentage fron x range length, to check if near x=0, and set min x range to 0.
+# x_divisions=100:
+#     Number of points inside x range.
+# err_area_alpha=0.3:
+#     color alpha (transparancy) of the error area.
+# err_label_suffix=" error":
+#     suffix for the error area label (error label = label + err_label_suffix).
