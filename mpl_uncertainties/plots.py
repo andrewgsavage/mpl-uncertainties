@@ -32,7 +32,7 @@ def errorbar(x, y, ax=None, *args, **kwargs):
 
 def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=None, x_margin=0.01, x0_proximity=0.2, x_divisions=100, err_area_alpha=0.3, err_label_suffix=" error", *args, **kwargs):
     """
-    Plots the fit + area of the slope error + rectangular area near 0 of the intercept error.
+    Plots the fit + area of the slope error + errorbar near 0 of the intercept error.
 
     mutate: how to mutate the fit (see doc examples for more details).
     plot_intercept_err: wether to plot the intercept error, if None then check if x=0 is in the plotting range.
@@ -55,16 +55,16 @@ def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=Non
         kwargs['color'] = ax._get_lines._cycler_items[ax._get_lines._idx]['color']
         ax._get_lines._idx = (ax._get_lines._idx + 1) % len(ax._get_lines._cycler_items)
 
-    # Add x range margin
+    # Star/end from x=0 if close to it.
     x_range = [np.min(x_val), np.max(x_val)]
     x_length = x_range[1] - x_range[0]
-    x_new_range = [x_range[0] - x_length * x_margin, x_range[1] + x_length * x_margin]
-
-    # Star/end from x=0 if close to it.
     if x_range[0] > 0 and x_range[0] - x_length * x0_proximity <= 0:
-        x_new_range[0] = 0
+        x_range[0] = 0
     elif x_range[1] < 0 and x_range[1] + x_length * x0_proximity >= 0:
-        x_new_range[1] = 0
+        x_range[1] = 0
+
+    # Add x range margin
+    x_new_range = [x_range[0] - x_length * x_margin, x_range[1] + x_length * x_margin]
 
     # Adjust the x to make more points for smoother plotting
     new_x = np.linspace(x_new_range[0], x_new_range[1], x_divisions)
@@ -72,18 +72,18 @@ def fit(x, slope, intercept, ax=None, mutate=lambda y: y, plot_intercept_err=Non
     # Plot the fit
     ax.plot(new_x, mutate(new_x*slope_val + intercept_val), *args, **kwargs)
 
-    # Plot slope error
-    kwargs.setdefault('alpha', err_area_alpha)
+    # Plot error for the intercept
     if 'label' in kwargs:
         kwargs['label'] += err_label_suffix
-    ax.fill_between(new_x, mutate(new_x*(slope_val + slope_err) + intercept_val), mutate(new_x*(slope_val - slope_err) + intercept_val), *args, **kwargs)
-
-    # Plot rectangle for the intercept error
     if plot_intercept_err == True or (plot_intercept_err == None and x_new_range[0] <= 0 and 0 <= x_new_range[1]):
-        kwargs.pop('label', None)
-        upper_y = mutate(intercept_val + intercept_err)
+        mid_y = mutate(intercept_val)
         lower_y = mutate(intercept_val - intercept_err)
-        height = upper_y - lower_y
-        width = height/5
-        
-        ax.add_patch(patches.Rectangle((-width/2, lower_y), width, height, *args, **kwargs))
+        upper_y = mutate(intercept_val + intercept_err)
+        lower_err = mid_y - lower_y
+        upper_err = upper_y - mid_y
+
+        ax.errorbar(0, mid_y, yerr=[[lower_err], [upper_err]], marker='', elinewidth=2, capsize=4, capthick=2, **kwargs)
+
+    # Plot slope error
+    kwargs.setdefault('alpha', err_area_alpha)
+    ax.fill_between(new_x, mutate(new_x*(slope_val + slope_err) + intercept_val), mutate(new_x*(slope_val - slope_err) + intercept_val), **kwargs)
