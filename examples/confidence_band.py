@@ -1,9 +1,9 @@
 """
-------------
-Function Fit
-------------
+---------------
+Confidence Band
+---------------
 
-A Function Fit plot with uncertainties.
+A function confidence band plot with uncertainties.
 
 We will use ODR for this example (because we have both x_err and y_err)
 """
@@ -72,7 +72,7 @@ slope, intercept = odr_linear_regression(x, y)
 
 # Plotting
 unplt.errorbar(x, y, label='Linear data', marker='.', linestyle='', capsize=2)
-unplt.fit(x, slope, intercept, label='Linear fit')
+unplt.confidence_band(x, slope, intercept, label='Linear fit')
 
 plt.legend()
 plt.grid()
@@ -102,7 +102,7 @@ slope, intercept = odr_linear_regression(x, ln_y)
 
 # Plotting
 unplt.errorbar(x, y, label='Linear data', linestyle='', capsize=2)
-unplt.fit(x, slope, intercept, label='Linear fit', mutate=np.exp)
+unplt.confidence_band(x, slope, intercept, label='Linear fit', mutate=np.exp)
 
 plt.legend()
 plt.grid()
@@ -111,8 +111,8 @@ plt.ylabel('y')
 plt.show()
 
 ##############################################################################
-# fit() Parameters
-# ----------------
+# confidence_band() Parameters
+# ----------------------------
 # x:
 #     the x of the graph, it can be numpy array or array of uncertainties values.
 # slope:
