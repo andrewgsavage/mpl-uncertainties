@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 name = "mpl-uncertainties"
 dynamic = ["version"]
 readme = "README.md"
-dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib"]
+dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib", "scipy"]
 
 [dependency-groups]
 tests = ["pytest", "pytest-mpl"]
@@ -29,7 +29,7 @@ mpl-uncertainties = { path = ".", editable = true }
 
 [tool.pixi.feature.tests.tasks]
 test = "pytest --mpl --mpl-baseline-path=baseline --mpl-default-style=default"
-test_mpl_generate = "pytest --mpl-generate-path=baseline --mpl-default-style=default"
+test_mpl_generate = "pytest -s --mpl-generate-path=baseline --mpl-default-style=default"
 
 [tool.pixi.environments]
 default = { solve-group = "default" }

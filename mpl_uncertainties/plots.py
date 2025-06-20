@@ -6,12 +6,12 @@
 
 __all__ = [
     "errorbar",
-    "confidence_band",
+    "boot_odr_band",
 ]
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 from uncertainties import unumpy as unp
+from .helper_functions import odr_linear_regression
 
 
 def errorbar(x, y, ax=None, *args, **kwargs):
@@ -30,36 +30,30 @@ def errorbar(x, y, ax=None, *args, **kwargs):
     # Plot the errorbar
     return ax.errorbar(x_val, y_val, xerr=x_err, yerr=y_err, *args, **kwargs)
 
-
-def confidence_band(
+def boot_odr_band(
     x,
-    slope,
-    intercept,
+    y,
     ax=None,
-    mutate=lambda y: y,
-    plot_intercept_err=None,
+    confidence_interval=0.95,
     x_margin=0.01,
-    x0_proximity=0.2,
-    x_divisions=100,
     err_area_alpha=0.3,
     err_label_suffix=" error",
+    x_divisions=100,
+    n_bootstrap=1000,
     *args,
     **kwargs
 ):
     """
-    Plots the fit + area of the slope error + errorbar near 0 of the intercept error.
+    Bootstrap ODR confidence band
+    Plots the confidance band using bootstrap and odr.
 
-    mutate: how to mutate the fit (see doc examples for more details).
-    plot_intercept_err: wether to plot the intercept error, if None then check if x=0 is in the plotting range.
-    x_margin: The margin of x axis, extra % to plot before and after the x range.
-    x0_proximity: percentage fron x range length, to check if near x=0, and set min x range to 0.
-    x_divisions: Number of points inside x range.
     """
     x_val = unp.nominal_values(x)
-    slope_val = unp.nominal_values(slope)
-    intercept_val = unp.nominal_values(intercept)
-    slope_err = unp.std_devs(slope)
-    intercept_err = unp.std_devs(intercept)
+    x_err = unp.std_devs(x)
+    y_err = unp.std_devs(y)
+
+    lower_percentile = (1-confidence_interval)/2
+    upper_percentile = 1-lower_percentile
 
     # Pull out the current axes if not passed
     if ax is None:
@@ -70,51 +64,41 @@ def confidence_band(
         kwargs['color'] = ax._get_lines._cycler_items[ax._get_lines._idx]['color']
         ax._get_lines._idx = (ax._get_lines._idx + 1) % len(ax._get_lines._cycler_items)
 
-    # Star/end from x=0 if close to it.
+    # Add x range margin
     x_range = [np.min(x_val), np.max(x_val)]
     x_length = x_range[1] - x_range[0]
-    if x_range[0] > 0 and x_range[0] - x_length * x0_proximity <= 0:
-        x_range[0] = 0
-    elif x_range[1] < 0 and x_range[1] + x_length * x0_proximity >= 0:
-        x_range[1] = 0
-
-    # Add x range margin
-    x_new_range = [x_range[0] - x_length * x_margin, x_range[1] + x_length * x_margin]
+    x_range = [x_range[0] - x_length * x_margin, x_range[1] + x_length * x_margin]
 
     # Adjust the x to make more points for smoother plotting
-    new_x = np.linspace(x_new_range[0], x_new_range[1], x_divisions)
+    x_fit = np.linspace(x_range[0], x_range[1], x_divisions)
+    y_fits = []
+
+    # bootstrap
+    for _ in range(n_bootstrap):
+        x_sample = x + np.random.normal(0, x_err)
+        y_sample = y + np.random.normal(0, y_err)
+        slope, intercept = odr_linear_regression(x_sample, y_sample)
+        y_fits.append(slope.n * x_fit + intercept.n)
+    y_fits = np.array(y_fits)
+
+    lower_y = np.percentile(y_fits, lower_percentile, axis=0)
+    upper_y = np.percentile(y_fits, upper_percentile, axis=0)
 
     # Plot the fit
-    ax.plot(new_x, mutate(new_x * slope_val + intercept_val), *args, **kwargs)
+    slope, intercept = odr_linear_regression(x, y)
+    fit_plot = ax.plot(x_fit, slope.n * x_fit + intercept.n, *args, **kwargs)
 
-    # Plot error for the intercept
+    # Plot confidence band
+
     if 'label' in kwargs:
         kwargs['label'] += err_label_suffix
-    if plot_intercept_err == True or (
-        plot_intercept_err == None and x_new_range[0] <= 0 and 0 <= x_new_range[1]
-    ):
-        mid_y = mutate(intercept_val)
-        lower_y = mutate(intercept_val - intercept_err)
-        upper_y = mutate(intercept_val + intercept_err)
-        lower_err = mid_y - lower_y
-        upper_err = upper_y - mid_y
-
-        ax.errorbar(
-            0,
-            mid_y,
-            yerr=[[lower_err], [upper_err]],
-            marker='',
-            elinewidth=2,
-            capsize=4,
-            capthick=2,
-            **kwargs
-        )
-
-    # Plot slope error
     kwargs.setdefault('alpha', err_area_alpha)
-    ax.fill_between(
-        new_x,
-        mutate(new_x * (slope_val + slope_err) + intercept_val),
-        mutate(new_x * (slope_val - slope_err) + intercept_val),
+    
+    err_plot = ax.fill_between(
+        x_fit,
+        lower_y,
+        upper_y,
         **kwargs
     )
+
+    return [fit_plot, err_plot]
