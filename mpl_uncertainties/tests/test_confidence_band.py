@@ -4,7 +4,7 @@
 # Copyright (c) andrewgsavage.
 # Distributed under the terms of the Modified BSD License.
 
-from ..plots import errorbar, boot_odr_band
+from ..plots import errorbar, odr_delta_conf_band
 
 
 import numpy as np
@@ -23,7 +23,7 @@ def test_linear_data_and_fit():
     x = unp.uarray(x_val, x_err)
     y = unp.uarray(y_val, y_err)
 
-    boot_odr_band(x, y, label='Linear fit')
+    odr_delta_conf_band(x, y, label='Linear fit')
     errorbar(x, y, linestyle='none', capsize=2)
     plt.legend()
     fig = plt.gcf()

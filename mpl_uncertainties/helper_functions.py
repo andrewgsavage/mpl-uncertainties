@@ -6,12 +6,13 @@
 
 __all__ = [
     "odr_linear_regression",
+    "pred_std_err",
 ]
 import numpy as np
 from uncertainties import ufloat, unumpy as unp
 from scipy.odr import ODR, Model, RealData
 
-def odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0):
+def odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0, return_odr_output=False):
     """
     use ODR for linear regression
     """
@@ -37,14 +38,23 @@ def odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0):
         Model(linear_model),
         beta0=[initial_slope, initial_intercept],
     ).run()
-    fit_slope, fit_intercept = fit.beta
-    fit_slope_err, fit_intercept_err = fit.sd_beta
 
     if fit.info > 3:
         fit.pprint()
         raise ValueError("Error calculating fit")
 
-    fit_slope, fit_intercept = fit.beta
-    fit_slope_err, fit_intercept_err = fit.sd_beta
+    if return_odr_output:
+        return fit
+    else:
+        fit_slope, fit_intercept = fit.beta
+        fit_slope_err, fit_intercept_err = fit.sd_beta
 
-    return ufloat(fit_slope, fit_slope_err), ufloat(fit_intercept, fit_intercept_err)
+        return ufloat(fit_slope, fit_slope_err), ufloat(fit_intercept, fit_intercept_err)
+
+def pred_std_err(x_val, cov_beta):
+    """
+    Analytical Error Propagation Using the Delta Method for Linear Regression
+    """
+    grad = np.vstack((x_val, np.ones_like(x_val)))  # shape (2, N)
+    variances = np.einsum('ij,jk,ik->i', grad.T, cov_beta, grad.T)
+    return np.sqrt(variances)
