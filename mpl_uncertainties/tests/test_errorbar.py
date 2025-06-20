@@ -17,6 +17,7 @@ import pytest
 def test_errorbar():
     x = np.array(
         [
+            ufloat(0.5, 0.19),
             ufloat(1.3, 0.16),
             ufloat(2.1, 0.15),
             ufloat(3, 0.22),
@@ -26,6 +27,7 @@ def test_errorbar():
     )
     y = np.array(
         [
+            ufloat(0.5, 0.19),
             ufloat(1.3, 0.16),
             ufloat(2.1, 0.15),
             ufloat(3, 0.22),
