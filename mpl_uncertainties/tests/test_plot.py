@@ -23,7 +23,7 @@ def test_plot():
     x = unp.uarray(x_val, x_err)
     y = unp.uarray(y_val, y_err)
 
-    plot(x, y, label='Linear fit')
+    plot(x, y, label="Linear fit")
     plt.legend()
     fig = plt.gcf()
     return fig

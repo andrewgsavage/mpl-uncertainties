@@ -19,18 +19,18 @@ x = unp.uarray(x_val, x_err)
 y = unp.uarray(y_val, y_err)
 
 slope, intercept = unplt.odr_linear_regression(x, y)
-y_fit = slope*x + intercept
+y_fit = slope * x + intercept
 
 # Plot the fit
 unplt.plot(x, y_fit)
 
 # Plot the data
-unplt.errorbar(x, y, linestyle='None', marker='.', capsize=2, label='Linear data')
+unplt.errorbar(x, y, linestyle="None", marker=".", capsize=2, label="Linear data")
 
 plt.legend()
 plt.grid()
-plt.xlabel('x')
-plt.ylabel('y')
+plt.xlabel("x")
+plt.ylabel("y")
 plt.show()
 
 ##############################################################################
@@ -56,16 +56,16 @@ y_fit = unplt.calc_confidence_band(x, y)
 color = unplt.pick_next_color()
 
 # Plot the fit
-unplt.plot(x, y_fit, color=color, label='Linear fit')
+unplt.plot(x, y_fit, color=color, label="Linear fit")
 
 # Plot 95% confidence band
-unplt.fill_between(x, y_fit, color=color, alpha=0.3, label='Linear fit confidence band')
+unplt.fill_between(x, y_fit, color=color, alpha=0.3, label="Linear fit confidence band")
 
 # Plot the data
-unplt.errorbar(x, y, linestyle='None', marker='.', capsize=2, label='Linear data')
+unplt.errorbar(x, y, linestyle="None", marker=".", capsize=2, label="Linear data")
 
 plt.legend()
 plt.grid()
-plt.xlabel('x')
-plt.ylabel('y')
+plt.xlabel("x")
+plt.ylabel("y")
 plt.show()

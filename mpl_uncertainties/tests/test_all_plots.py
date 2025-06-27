@@ -5,7 +5,7 @@
 # Distributed under the terms of the Modified BSD License.
 
 from ..plots import errorbar, fill_between, plot
-from ..helper_functions import odr_linear_regression, calc_confidence_band, pick_next_color
+from ..helper_functions import calc_confidence_band, pick_next_color
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,13 +23,13 @@ def test_plot_all():
     x = unp.uarray(x_val, x_err)
     y = unp.uarray(y_val, y_err)
 
-    errorbar(x, y, linestyle='None', marker='.', capsize=2, label='Linear data')
+    errorbar(x, y, linestyle="None", marker=".", capsize=2, label="Linear data")
 
     color = pick_next_color()
     y_fit = calc_confidence_band(x, y)
 
-    plot(x, y_fit, color=color, label='Linear fit')
-    fill_between(x, y_fit, color=color, alpha=0.3, label='Linear fit confidence band')
+    plot(x, y_fit, color=color, label="Linear fit")
+    fill_between(x, y_fit, color=color, alpha=0.3, label="Linear fit confidence band")
 
     plt.legend()
     fig = plt.gcf()

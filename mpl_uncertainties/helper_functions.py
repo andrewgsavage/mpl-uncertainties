@@ -16,7 +16,9 @@ from scipy.odr import ODR, Model, RealData
 from scipy.stats import t
 
 
-def odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0, return_odr_output=False):
+def odr_linear_regression(
+    x, y, initial_slope=1.0, initial_intercept=0.0, return_odr_output=False
+):
     """
     Use ODR for linear regression
     """
@@ -53,7 +55,9 @@ def odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0, return
         fit_slope, fit_intercept = fit.beta
         fit_slope_err, fit_intercept_err = fit.sd_beta
 
-        return ufloat(fit_slope, fit_slope_err), ufloat(fit_intercept, fit_intercept_err)
+        return ufloat(fit_slope, fit_slope_err), ufloat(
+            fit_intercept, fit_intercept_err
+        )
 
 
 def calc_confidence_band(x, y, confidence_interval=0.95):
@@ -67,11 +71,11 @@ def calc_confidence_band(x, y, confidence_interval=0.95):
     y_fit_val = slope * x_val + intercept
 
     dof = len(x) - len(fit.beta)
-    t_val = t.ppf(1 - (1-confidence_interval)/2, dof)
+    t_val = t.ppf(1 - (1 - confidence_interval) / 2, dof)
 
     # Analytical Error Propagation Using the Delta Method for Linear Regression
     grad = np.vstack((x_val, np.ones_like(x_val)))  # shape (2, N)
-    variances = np.einsum('ij,jk,ik->i', grad.T, fit.cov_beta, grad.T)
+    variances = np.einsum("ij,jk,ik->i", grad.T, fit.cov_beta, grad.T)
     pred_std_err = np.sqrt(variances)
     y_fit_err = t_val * pred_std_err
 
@@ -83,6 +87,6 @@ def pick_next_color(ax=None):
     if ax is None:
         ax = plt.gca()
 
-    color = ax._get_lines._cycler_items[ax._get_lines._idx]['color']
+    color = ax._get_lines._cycler_items[ax._get_lines._idx]["color"]
     ax._get_lines._idx = (ax._get_lines._idx + 1) % len(ax._get_lines._cycler_items)
     return color

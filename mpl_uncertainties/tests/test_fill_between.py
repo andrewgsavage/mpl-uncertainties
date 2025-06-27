@@ -24,7 +24,7 @@ def test_upper_and_lower_bands():
     y1 = unp.uarray(y_val, y_err)
     y2 = y1 + 1
 
-    fill_between(x, y1, y2, alpha=0.3, label='Linear fit')
+    fill_between(x, y1, y2, alpha=0.3, label="Linear fit")
     plt.legend()
     fig = plt.gcf()
     return fig
@@ -40,7 +40,7 @@ def test_error_area_plot():
     x = unp.uarray(x_val, x_err)
     y = unp.uarray(y_val, y_err)
 
-    fill_between(x, y, alpha=0.3, label='Linear fit')
+    fill_between(x, y, alpha=0.3, label="Linear fit")
     plt.legend()
     fig = plt.gcf()
     return fig

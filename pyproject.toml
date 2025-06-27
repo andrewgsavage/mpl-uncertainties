@@ -16,7 +16,15 @@ dependencies = ["uncertainties>=3.2.3,<4.0.0", "matplotlib", "scipy"]
 
 [dependency-groups]
 tests = ["pytest", "pytest-mpl"]
-docs = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi", "scipy", "furo"]
+docs = [
+  "sphinx",
+  "sphinx_copybutton",
+  "sphinx_gallery",
+  "numpydoc",
+  "autoapi",
+  "scipy",
+  "furo",
+]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
@@ -45,7 +53,15 @@ example = { cmd = "python examples/errorbar.py" }
 # doc gets used by readthedocs, docs is used by pixi
 # test gets used by pip/github actions, tests is used by pixi
 [project.optional-dependencies]
-doc = ["sphinx", "sphinx_copybutton", "sphinx_gallery", "numpydoc", "autoapi", "scipy", "furo"]
+doc = [
+  "sphinx",
+  "sphinx_copybutton",
+  "sphinx_gallery",
+  "numpydoc",
+  "autoapi",
+  "scipy",
+  "furo",
+]
 test = ["pytest", "pytest-mpl"]
 
 [tool.pixi.feature.lint.dependencies]
