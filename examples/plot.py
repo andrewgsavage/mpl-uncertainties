@@ -3,7 +3,7 @@
 Plot adapter
 ------------
 
-We will use ODR for this example (because we have both x_err and y_err)
+A line plot using an array of uncertainties for x and y.
 """
 
 import numpy as np
