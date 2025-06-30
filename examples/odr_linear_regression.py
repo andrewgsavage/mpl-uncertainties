@@ -53,14 +53,16 @@ y_err = y_val * 0.05 + 0.05  # 5% + 0.05
 x = unp.uarray(x_val, x_err)
 y = unp.uarray(y_val, y_err)
 
-fit = unplt.odr_linear_regression(x, y, initial_slope=1.0, initial_intercept=0.0, return_odr_output=True)
+fit = unplt.odr_linear_regression(
+    x, y, initial_slope=1.0, initial_intercept=0.0, return_odr_output=True
+)
 
 fit_slope, fit_intercept = fit.beta
 fit_slope_err, fit_intercept_err = fit.sd_beta
 slope = ufloat(fit_slope, fit_slope_err)
 intercept = ufloat(fit_intercept, fit_intercept_err)
 
-y_fit =  slope * x + intercept
+y_fit = slope * x + intercept
 
 # Plot the fit
 unplt.plot(x, y_fit)
