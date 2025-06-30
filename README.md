@@ -2,6 +2,11 @@
 
 An Uncertainties package for Matplotlib
 
+## Examples
+
+For for examples documentation please visit:
+https://mpl-uncertainties.readthedocs.io/en/latest/examples/
+
 ## Installation
 
 You can install using `pip`:

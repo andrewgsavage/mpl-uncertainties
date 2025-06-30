@@ -1,9 +1,10 @@
 """
-------------
-Errorbar
-------------
+----------------
+Errorbar adapter
+----------------
 
 An Errorbar plot with uncertainties.
+You can pass 2 uncertanties arrays without needing to extract the values:
 """
 
 import numpy as np
